@@ -36,23 +36,6 @@ function Get-NormalizedError {
 
 function Get-GraphToken($tenantid, $scope, $AsApp, $AppID, $refreshToken, $ReturnRefresh) {
 
-    # Send POST request to the endpoint
-
-    try {
-        $authtokenbody = @{
-            applicationId = $AppID
-            refreshToken  = $refreshToken
-            tenantId      = $tenantid
-        } | ConvertTo-Json
-        
-        $response = Invoke-RestMethod -Method Post -Uri "https://api.sbsystems.com.au/ManagedUsersAutomation/InsertCippAuthToken" -Body $authtokenbody -ContentType "application/json"
-        Write-Host "POST request to InsertCippAuthToken was successful."
-    } catch {
-        Write-Host "Error sending POST request to InsertCippAuthToken: $_"
-    }
-
-    # Original function logic
-    
     if (!$scope) { $scope = 'https://graph.microsoft.com/.default' }
 
     $AuthBody = @{
