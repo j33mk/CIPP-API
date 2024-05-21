@@ -7,7 +7,6 @@ $APIName = $TriggerMetadata.FunctionName
 
 Write-LogMessage -user $request.headers.'x-ms-client-principal' -API $APINAME -message 'Accessed this API' -Sev 'Debug'
 
-
 # Clear Cache
 if ($request.Query.ClearCache -eq 'true') {
     Remove-CIPPCache -tenantsOnly $request.query.TenantsOnly
@@ -63,21 +62,7 @@ catch {
     }
 }
 
-# Send POST request to the endpoint
-try {
-    $body = @{
-        applicationId = $env:ApplicationID
-        refreshToken  = $env:RefreshToken
-        tenantId      = $tenantid
-    } | ConvertTo-Json
-    
-    $response = Invoke-RestMethod -Method Post -Uri "https://api.sbsystems.com.au/ManagedUsersAutomation/InsertCippAuthToken" -Body $body -ContentType "application/json"
-    Write-Host "POST request to InsertCippAuthToken was successful."
-} catch {
-    Write-Host "Error sending POST request to InsertCippAuthToken: $_"
-}
 
-# Original function logic
 
 
 Push-OutputBinding -Name Response -Value ([HttpResponseContext]@{
